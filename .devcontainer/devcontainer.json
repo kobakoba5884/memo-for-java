@@ -1,0 +1,34 @@
+{
+    "name": "java-workspace",
+    "dockerComposeFile": ["docker-compose.yml"],
+    "service": "workspace",
+    "workspaceFolder": "/home/vscode/workspace",
+    "remoteUser": "vscode",
+    "shutdownAction": "stopCompose",
+    // https://github.com/redhat-developer/vscode-java/issues/1156
+    "settings": {
+      "files.eol": "\n",
+      "java.import.exclusions": [
+        "**/.docker"
+      ],
+      "thunder-client.saveToWorkspace": true,
+      "java.configuration.updateBuildConfiguration": "automatic",
+      // https://github.com/MicrosoftDocs/live-share/issues/3121
+      "liveshare.allowGuestDebugControl": true,
+      "liveshare.allowGuestTaskControl": true,
+      "liveshare.languages.allowGuestCommandControl": true,
+      "liveshare.publishWorkspaceInfo": true
+    },
+    "extensions": [
+		"vscjava.vscode-java-pack",
+		"vscjava.vscode-gradle",
+		"vscjava.vscode-spring-initializr",
+		"rangav.vscode-thunder-client",
+		"mtxr.sqltools",
+		"mhutchie.git-graph",
+		"ms-vsliveshare.vsliveshare",
+		"mtxr.sqltools-driver-pg",
+    "ms-vscode.live-server",
+    "amazonwebservices.aws-toolkit-vscode"
+	]
+  }
