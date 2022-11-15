@@ -43,4 +43,21 @@ public class AuroraPostgres {
             System.exit(1);
         }
     }
+
+    // confirm connection
+    private static void confirmConnction(){
+        String sql = "select 1;";
+        try(Connection connection = DriverManager.getConnection(url, user, password);
+            PreparedStatement statement = connection.prepareStatement(sql);){
+                statement.executeQuery();
+                System.out.println("successfully connected!");
+        }catch(SQLException e){
+            System.err.println(e.getMessage());
+            System.exit(1);
+        }
+    }
+
+    public static void main(String[] args) {
+        confirmConnction();
+    }
 }
