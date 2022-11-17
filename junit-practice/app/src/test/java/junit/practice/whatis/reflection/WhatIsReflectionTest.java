@@ -126,4 +126,30 @@ public class WhatIsReflectionTest {
         assertEquals(7, actualMethods.size());
         assertTrue(actualMethods.containsAll(Arrays.asList("getName", "setName", "getSound")));
     }
+
+    // I don't understand
+    @Test
+    public void setPrivateStaticField() throws Throwable{
+        Class<?> targetClass = Class.forName("junit.practice.whatis.reflection.models.PrivateStatic");
+        Field field = targetClass.getDeclaredField("privateStaticField");
+        field.setAccessible(true);
+
+        field.set(targetClass, "change");
+
+        Field newField = targetClass.getDeclaredField("privateStaticField");
+        String newFieldName = (String) newField.get(targetClass);
+        assertEquals("change", newFieldName);
+    }
+
+    @Test
+    public void setPublicStaticField() throws Throwable{
+        Class<?> targetClass = Class.forName("junit.practice.whatis.reflection.models.PrivateStatic");
+        Field field = targetClass.getField("publicStaticField");
+
+        field.set(targetClass, "change");
+
+        Field newField = targetClass.getField("publicStaticField");
+        String newFieldName = (String) newField.get(null);
+        assertEquals("change", newFieldName);
+    }
 }

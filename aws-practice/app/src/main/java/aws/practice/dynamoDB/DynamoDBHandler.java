@@ -27,8 +27,6 @@ import com.amazonaws.services.dynamodbv2.model.TableDescription;
 
 public class DynamoDBHandler{
     private static final AmazonDynamoDB ddb = AmazonDynamoDBClientBuilder.defaultClient();
-    // private static final String primaryKey = "flag name";
-    // private static final String targetKey = "flag";
     private static final Integer flagNum = 18;
 
     private DynamoDBHandler(){
@@ -82,7 +80,6 @@ public class DynamoDBHandler{
 
                 String primaryValue = primaryKey + " " + i;
 
-                System.out.println(i);
                 item_values.put(primaryKey, new AttributeValue(primaryValue));
                 item_values.put(targetKey, new AttributeValue("0"));
 
