@@ -1,0 +1,7 @@
+.docker
+.vscode
+
+
+gradlew*
+.gitattributes
+gradle

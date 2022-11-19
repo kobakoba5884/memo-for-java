@@ -1,0 +1,19 @@
+
+# Ignore Gradle build output directory
+build
+.docker
+.vscode
+aws.session.sql
+
+# Ignore Gradle 
+.gradle
+/gradle
+gradlew
+*.bat
+.gitattributes
+bin
+
+# Igonore Project inside
+Credentials.*
+
+# git rm -r --cached .
