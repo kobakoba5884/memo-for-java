@@ -1,4 +1,4 @@
-package aws.practice.auroraPostgres;
+package aws.practice.rds;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

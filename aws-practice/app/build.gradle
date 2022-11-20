@@ -28,6 +28,9 @@ dependencies {
     implementation 'com.amazonaws:aws-java-sdk-sqs:1.12.335'
     // amazon rds
     implementation 'com.amazonaws:aws-java-sdk-rds:1.12.335'
+    implementation 'software.amazon.awssdk:rds:2.18.20'
+    // amazon ec2
+    testImplementation 'software.amazon.awssdk:ec2:2.18.21'
     // jdbc driver for postgres
     implementation 'org.postgresql:postgresql:42.5.0'
 }

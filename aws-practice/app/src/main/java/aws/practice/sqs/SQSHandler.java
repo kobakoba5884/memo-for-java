@@ -115,12 +115,15 @@ public class SQSHandler {
             sendMessageRequest.withMessageGroupId(groupId);
         }
 
-        sqs.sendMessage(sendMessageRequest);
+        try{
+            sqs.sendMessage(sendMessageRequest);
+        }catch(AmazonSQSException e){
+            System.err.println(e.getErrorMessage());
+        }
 
         String sendMessage = sendMessageRequest.getMessageBody();
-        String sendMessageGroupId = sendMessageRequest.getMessageGroupId();
 
-        System.out.format("sent message which is %s(groupId : %s)\n", sendMessage, sendMessageGroupId);
+        System.out.format("sent message which is %s\n", sendMessage);
     }
 
     // receive messages from queue

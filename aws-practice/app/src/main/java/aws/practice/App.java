@@ -8,8 +8,8 @@ import java.util.stream.IntStream;
 
 import com.amazonaws.services.sqs.model.Message;
 
-import aws.practice.auroraPostgres.AuroraPostgres;
 import aws.practice.dynamoDB.DynamoDBHandler;
+import aws.practice.rds.AuroraPostgres;
 import aws.practice.sqs.SQSHandler;
 
 public class App{
