@@ -1,0 +1,66 @@
+version: "3.9"
+
+services:
+  workspace:
+    container_name: ${PROJECT_NAME:-java}-workspace
+    build:
+      context: ./docker/workspace
+      args:
+        USER_NAME: ${USER_NAME:-vscode}
+        USER_GROUP_NAME: ${USER_GROUP_NAME:-workspace}
+        USER_UID: ${USER_UID:-1000}
+        USER_GID: ${USER_GID:-1000}
+        JAVA_VERSION: ${JAVA_VERSION:-17.0.4-amzn}
+        GRADLE_VERSION: ${GRADLE_VERSION:-7.3}
+    tty: true
+    environment:
+      TZ: ${TIME_ZONE:-Asia/Tokyo}
+    volumes:
+      - ../:/home/${USER_NAME:-vscode}/workspace:cached
+      - ~/.aws:/home/${USER_NAME:-vscode}/.aws:cached
+    ports:
+      - 5555:5555
+
+  postgres:
+    container_name: ${PROJECT_NAME:-java}-postgres
+    image: postgres:10
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-dev}
+    ports:
+      - ${POSTGRES_PORT:-5432}:5432
+    volumes:
+      - ../.docker/postgres:/var/lib/postgresql/data/
+    restart: unless-stopped
+
+  pgadmin4:
+    container_name: ${PROJECT_NAME:-java}-pgadmin
+    restart: always
+    image: dpage/pgadmin4:6.12
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin@example.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-password}
+    volumes:
+      - ../.docker/pgamin4_data:/var/lib/pgadmin
+    ports:
+      - 8888:80
+    depends_on:
+      - postgres
+  
+  mysql:
+    container_name: ${PROJECT_NAME:-parcticeSpring}-mysql-container
+    restart: unless-stopped
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - ${MYSQL_PORT:-3306}:3306
+    volumes:
+      - ../.docker/mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-mysqlPassword}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-dev}
+      MYSQL_USER: ${MYSQL_USER:-mysql}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-mysqlPassword}
+
+# https://www.timedia.co.jp/tech/20220628-tech/
