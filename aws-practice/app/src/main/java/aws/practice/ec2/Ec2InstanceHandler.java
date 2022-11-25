@@ -1,12 +1,14 @@
 package aws.practice.ec2;
 
 import java.util.List;
+import java.util.Optional;
 
 import software.amazon.awssdk.services.ec2.Ec2Client;
 import software.amazon.awssdk.services.ec2.model.CreateTagsRequest;
 import software.amazon.awssdk.services.ec2.model.Ec2Exception;
 import software.amazon.awssdk.services.ec2.model.InstanceStateChange;
 import software.amazon.awssdk.services.ec2.model.InstanceType;
+import software.amazon.awssdk.services.ec2.model.KeyPairInfo;
 import software.amazon.awssdk.services.ec2.model.RunInstancesRequest;
 import software.amazon.awssdk.services.ec2.model.RunInstancesResponse;
 import software.amazon.awssdk.services.ec2.model.Tag;
@@ -14,6 +16,8 @@ import software.amazon.awssdk.services.ec2.model.TerminateInstancesRequest;
 import software.amazon.awssdk.services.ec2.model.TerminateInstancesResponse;
 
 import static aws.practice.credential.CredentioalsInfo.KEY_PAIR_NAME;
+import static aws.practice.ec2.Ec2KeyPairHandler.getEC2KeyByKeyName;
+import static aws.practice.ec2.Ec2KeyPairHandler.createEC2KeyPair;
 
 public class Ec2InstanceHandler {
     private final static Integer CREATE_COUNT = 1;
@@ -33,6 +37,12 @@ public class Ec2InstanceHandler {
             .keyName(KEY_PAIR_NAME)
             .build();
         
+        Optional<KeyPairInfo> keyPairInfo = getEC2KeyByKeyName(ec2Client, KEY_PAIR_NAME);
+
+        if(keyPairInfo.isEmpty()){
+            createEC2KeyPair(ec2Client, KEY_PAIR_NAME);
+        }
+
         RunInstancesResponse runInstancesResponse = ec2Client.runInstances(runInstancesRequest);
         String instanceId = runInstancesResponse.instances().get(0).instanceId();
 

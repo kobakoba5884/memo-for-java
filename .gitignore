@@ -5,3 +5,4 @@
 gradlew*
 .gitattributes
 bin
+private_key_for_ec2
