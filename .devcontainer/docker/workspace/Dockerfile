@@ -37,3 +37,13 @@ RUN su ${USER_NAME} --command \
     && source "${HOME}/.sdkman/bin/sdkman-init.sh" \
     && sdk install java "${JAVA_VERSION}" \
     && sdk install gradle ${GRADLE_VERSION}'
+
+# ---------------------------------- aws cli ----------------------------------
+
+ARG ZIP_FILE=awscliv2.zip
+
+RUN apt-get install -y less \
+    && curl https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip -o ${ZIP_FILE} \
+    && unzip ${ZIP_FILE}  \
+    && ./aws/install \
+    && rm -f ${ZIP_FILE}
