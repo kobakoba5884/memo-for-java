@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import software.amazon.awssdk.services.ec2.Ec2Client;
-import software.amazon.awssdk.services.ec2.model.CreateTagsRequest;
 import software.amazon.awssdk.services.ec2.model.DescribeInstancesRequest;
 import software.amazon.awssdk.services.ec2.model.DescribeInstancesResponse;
 import software.amazon.awssdk.services.ec2.model.Ec2Exception;
@@ -14,13 +13,13 @@ import software.amazon.awssdk.services.ec2.model.InstanceType;
 import software.amazon.awssdk.services.ec2.model.KeyPairInfo;
 import software.amazon.awssdk.services.ec2.model.RunInstancesRequest;
 import software.amazon.awssdk.services.ec2.model.RunInstancesResponse;
-import software.amazon.awssdk.services.ec2.model.Tag;
 import software.amazon.awssdk.services.ec2.model.TerminateInstancesRequest;
 import software.amazon.awssdk.services.ec2.model.TerminateInstancesResponse;
 
 import static aws.credential.CredentioalsInfo.KEY_PAIR_NAME;
 import static aws.ec2.Ec2KeyPairHandler.getEC2KeyByKeyName;
 import static aws.ec2.Ec2KeyPairHandler.createEC2KeyPair;
+import static aws.ec2.Ec2TagHandler.createTag;
 
 public class Ec2InstanceHandler {
     private final static Integer CREATE_COUNT = 1;
@@ -31,7 +30,9 @@ public class Ec2InstanceHandler {
     }
 
     // create ec2 instance
-    public static String createEc2Instance(Ec2Client ec2Client, String name){
+    public static String createEc2Instance(Ec2Client ec2Client, String... tagNames){
+        Optional<String> tagName = tagNames.length == 0 ? Optional.empty() : Optional.of(tagNames[0]);
+
         RunInstancesRequest runInstancesRequest = RunInstancesRequest.builder()
             .imageId(AMI_ID)
             .instanceType(InstanceType.T2_MICRO)
@@ -46,31 +47,19 @@ public class Ec2InstanceHandler {
             createEC2KeyPair(ec2Client, KEY_PAIR_NAME);
         }
 
-        RunInstancesResponse runInstancesResponse = ec2Client.runInstances(runInstancesRequest);
-        String instanceId = runInstancesResponse.instances().get(0).instanceId();
-
-        // todo 
-        Tag tag = Tag.builder()
-            .key("Name")
-            .value(name)
-            .build();
-
-        CreateTagsRequest tagsRequest = CreateTagsRequest.builder()
-            .resources(instanceId)
-            .tags(tag)
-            .build();
-        
         try{
-            ec2Client.createTags(tagsRequest);
+            RunInstancesResponse runInstancesResponse = ec2Client.runInstances(runInstancesRequest);
+            String instanceId = runInstancesResponse.instances().get(0).instanceId();
+
+            tagName.ifPresent(name -> createTag(ec2Client, instanceId, name));
+
             System.out.format("Successfully started EC2 Instance %s based on AMI %s\n", instanceId, AMI_ID);
             
             return instanceId;
         }catch(Ec2Exception e){
             System.err.println(e.awsErrorDetails().errorMessage());
-            System.exit(1);
+            return "";
         }
-
-        return "";
     }
 
     // get instances list
@@ -84,7 +73,7 @@ public class Ec2InstanceHandler {
                 .flatMap(reservation -> reservation.instances().stream()).toList();
             
             if(result.size() == 0){
-                System.out.println("instances is nothing.");
+                System.out.println("instances are nothing.");
                 return Optional.empty();
             }
 
@@ -95,12 +84,12 @@ public class Ec2InstanceHandler {
                 System.out.println("Instance state name is "+ instance.state().name());
                 System.out.println("monitoring information is "+ instance.monitoring().state());
             });
+
+            return Optional.of(result);
         }catch(Ec2Exception e){
             System.err.println(e.awsErrorDetails().errorMessage());
-            System.exit(1);
+            return Optional.empty();
         }
-
-        return Optional.of(result);
     }
 
     // get instance info
@@ -115,20 +104,13 @@ public class Ec2InstanceHandler {
                 .flatMap(reservation -> reservation.instances().stream()).findAny();
             
             System.out.printf("found instance!! (%s)\n", instanceId);
+
             return result;
         }catch(Ec2Exception e){
-            String errorMessage = e.awsErrorDetails().errorMessage();
+            System.err.println(e.awsErrorDetails().errorMessage());
 
-            System.err.println(errorMessage);
-
-            if(errorMessage.equals(String.format("Invalid id: \"%s\"", instanceId))) {
-                return Optional.empty();
-            }
-            
-            System.exit(1);
+            return Optional.empty();
         }
-
-        return Optional.empty();
     }
 
     // terminate ec2 instance

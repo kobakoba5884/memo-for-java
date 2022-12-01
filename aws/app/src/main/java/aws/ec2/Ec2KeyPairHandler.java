@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -109,28 +108,27 @@ public class Ec2KeyPairHandler{
     }
 
     // get key pair list
-    public static Optional<List<KeyPairInfo>> getEC2Keys(Ec2Client ec2Client){
-        List<KeyPairInfo> keyPairInfos = new ArrayList<>();
+    public static Optional<List<KeyPairInfo>> getEC2KeyPairs(Ec2Client ec2Client){
+        
         try{
             DescribeKeyPairsResponse response = ec2Client.describeKeyPairs();
-            keyPairInfos = response.keyPairs();
+            List<KeyPairInfo> keyPairInfos = response.keyPairs();
 
             if(keyPairInfos.size() == 0) return Optional.empty();
 
             keyPairInfos.forEach(keyPair -> {
                 System.out.printf("Found key pair with name %s and fingerprint %s\n", keyPair.keyName(), keyPair.keyFingerprint());
             });
+
+            return Optional.of(keyPairInfos);
         }catch(Ec2Exception e){
             System.err.println(e.awsErrorDetails().errorMessage());
-            System.exit(1);
+            return Optional.empty();
         }
-
-        return Optional.of(keyPairInfos);
     }
 
     // get key pair
     public static Optional<KeyPairInfo> getEC2KeyByKeyName(Ec2Client ec2Client, String keyPairName){
-        KeyPairInfo keyPairInfo = null;
         try{
             DescribeKeyPairsRequest describeKeyPairsRequest = DescribeKeyPairsRequest.builder()
                 .keyNames(keyPairName)
@@ -138,21 +136,19 @@ public class Ec2KeyPairHandler{
 
             DescribeKeyPairsResponse describeKeyPairsResponse = ec2Client.describeKeyPairs(describeKeyPairsRequest);
 
-            keyPairInfo = describeKeyPairsResponse.keyPairs().get(0);
+            KeyPairInfo keyPairInfo = describeKeyPairsResponse.keyPairs().get(0);
+
             System.out.printf("found keyPair!! (%s)\n", keyPairName);
+
+            return Optional.of(keyPairInfo);
         }catch(Ec2Exception e){
-            String message = e.awsErrorDetails().errorMessage();
-
-            System.err.println(message);
-            if(message.equals(String.format("The key pair '%s' does not exist", keyPairName))) return Optional.empty();
-
-            System.exit(1);
+            System.err.println(e.awsErrorDetails().errorMessage());
+            return Optional.empty();
         }
-        return Optional.of(keyPairInfo);
     }
 
     // delete key pair
-    public static void deleteKeys(Ec2Client ec2Client, String keyPairName) {
+    public static void deleteKeyPair(Ec2Client ec2Client, String keyPairName) {
         try{
             DeleteKeyPairRequest deleteKeyPairRequest = DeleteKeyPairRequest.builder()
                 .keyName(keyPairName)
@@ -164,21 +160,22 @@ public class Ec2KeyPairHandler{
             deletePemFile(keyPairName);
         }catch (Ec2Exception e) {
             System.err.println(e.awsErrorDetails().errorMessage());
-            System.exit(1);
         }
     }
 
     // all delete key pair
     public static void allDeleteKeys(Ec2Client ec2Client){
-        Optional<List<KeyPairInfo>> keyPairInfosOptional = getEC2Keys(ec2Client);
+        Optional<List<KeyPairInfo>> keyPairInfosOptional = getEC2KeyPairs(ec2Client);
 
         if(keyPairInfosOptional.isEmpty()){
             System.out.println("key pairs's list is empty!!");
             return;
         }
+
         List<KeyPairInfo> keyPairInfos = keyPairInfosOptional.get();
 
-        keyPairInfos.stream().forEach(keyPair -> deleteKeys(ec2Client, keyPair.keyName()));
+        keyPairInfos.stream().forEach(keyPair -> deleteKeyPair(ec2Client, keyPair.keyName()));
+
         System.out.printf("successfully delete all of key pairs!! (total: %d)\n", keyPairInfos.size());
     }
 }

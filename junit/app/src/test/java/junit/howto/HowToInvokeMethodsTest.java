@@ -1,4 +1,4 @@
-package junit.practice.howto;
+package junit.howto;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -8,8 +8,6 @@ import java.lang.reflect.Method;
 
 import org.junit.Ignore;
 import org.junit.Test;
-
-import junit.howto.HowToInvokeMethods;
 
 public class HowToInvokeMethodsTest {
     private Class<HowToInvokeMethods> targetClass = HowToInvokeMethods.class;

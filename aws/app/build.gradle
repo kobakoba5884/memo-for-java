@@ -36,6 +36,9 @@ dependencies {
     // jdbc driver for postgres
     implementation 'org.postgresql:postgresql:42.5.0'
 
+    // to get my global ip address
+    implementation 'io.ipinfo:ipinfo-api:2.1.1'
+
     // slf4j for sdk
     
 }

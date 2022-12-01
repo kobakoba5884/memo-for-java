@@ -1,4 +1,4 @@
-package junit.practice.arithmetic;
+package junit.arithmetic;
 
 import static org.junit.Assert.assertEquals;
 
@@ -6,9 +6,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import junit.arithmetic.CalcMain;
-// import junit.practice.arithmetic.CalcMain;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 

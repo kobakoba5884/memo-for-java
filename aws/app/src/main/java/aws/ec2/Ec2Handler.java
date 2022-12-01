@@ -4,8 +4,6 @@ import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
 import software.amazon.awssdk.services.ec2.Ec2Client;
 
 import static aws.credential.CredentioalsInfo.MY_REGION;
-import static aws.ec2.Ec2KeyPairHandler.*;
-import static aws.ec2.Ec2InstanceHandler.*;
 import static aws.ec2.Ec2SecurityGroupHandler.*;
 
 
@@ -22,8 +20,8 @@ public class Ec2Handler {
             // deletePemFile("test2");
             // allDeleteKeys(ec2Client);
             // getInstanceByInstanceId(ec2Client, "instanceId");
-            getInstancesList(ec2Client);
-            // createEC2SecurityGroup(ec2Client, "groupName", "groupDesc");
+            // getInstancesList(ec2Client);
+            createEC2SecurityGroup(ec2Client, "groupName3", "groupDesc");
             // getInstanceByInstanceId(ec2Client, "i-1234567890abcdef0");
         ec2Client.close();
     }
