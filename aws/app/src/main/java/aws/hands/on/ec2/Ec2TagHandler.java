@@ -1,4 +1,4 @@
-package aws.ec2;
+package aws.hands.on.ec2;
 
 import java.util.Optional;
 

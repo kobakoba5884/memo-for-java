@@ -1,4 +1,4 @@
-package aws.ec2;
+package aws.hands.on.ec2;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -23,7 +23,7 @@ import software.amazon.awssdk.services.ec2.model.DescribeKeyPairsResponse;
 import software.amazon.awssdk.services.ec2.model.Ec2Exception;
 import software.amazon.awssdk.services.ec2.model.KeyPairInfo;
 
-import static aws.credential.CredentioalsInfo.EC2_FOLDER_PATH;
+import static aws.hands.on.credential.CredentioalsInfo.EC2_FOLDER_PATH;
 
 
 public class Ec2KeyPairHandler{

@@ -1,4 +1,4 @@
-package aws.dynamoDB;
+package aws.hands.on.dynamoDB;
 
 import java.util.HashMap;
 import java.util.List;

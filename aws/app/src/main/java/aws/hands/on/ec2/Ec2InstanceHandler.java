@@ -1,4 +1,4 @@
-package aws.ec2;
+package aws.hands.on.ec2;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,10 +16,10 @@ import software.amazon.awssdk.services.ec2.model.RunInstancesResponse;
 import software.amazon.awssdk.services.ec2.model.TerminateInstancesRequest;
 import software.amazon.awssdk.services.ec2.model.TerminateInstancesResponse;
 
-import static aws.credential.CredentioalsInfo.KEY_PAIR_NAME;
-import static aws.ec2.Ec2KeyPairHandler.getEC2KeyByKeyName;
-import static aws.ec2.Ec2KeyPairHandler.createEC2KeyPair;
-import static aws.ec2.Ec2TagHandler.createTag;
+import static aws.hands.on.credential.CredentioalsInfo.KEY_PAIR_NAME;
+import static aws.hands.on.ec2.Ec2KeyPairHandler.getEC2KeyByKeyName;
+import static aws.hands.on.ec2.Ec2KeyPairHandler.createEC2KeyPair;
+import static aws.hands.on.ec2.Ec2TagHandler.createTag;
 
 public class Ec2InstanceHandler {
     private final static Integer CREATE_COUNT = 1;

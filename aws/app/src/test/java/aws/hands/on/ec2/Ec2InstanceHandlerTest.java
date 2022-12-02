@@ -1,4 +1,4 @@
-package aws.ec2;
+package aws.hands.on.ec2;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,8 +8,8 @@ import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
 import software.amazon.awssdk.services.ec2.Ec2Client;
 import software.amazon.awssdk.services.ec2.model.Instance;
 
-import static aws.credential.CredentioalsInfo.MY_REGION;
-import static aws.ec2.Ec2InstanceHandler.*;
+import static aws.hands.on.credential.CredentioalsInfo.MY_REGION;
+import static aws.hands.on.ec2.Ec2InstanceHandler.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;

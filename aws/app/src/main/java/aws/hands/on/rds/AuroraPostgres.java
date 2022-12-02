@@ -1,11 +1,11 @@
-package aws.rds;
+package aws.hands.on.rds;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import static aws.credential.CredentioalsInfo.*;
+import static aws.hands.on.credential.CredentioalsInfo.*;
 
 
 public class AuroraPostgres {

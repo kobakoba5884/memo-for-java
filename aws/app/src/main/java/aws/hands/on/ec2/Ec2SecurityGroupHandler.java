@@ -1,4 +1,4 @@
-package aws.ec2;
+package aws.hands.on.ec2;
 
 import software.amazon.awssdk.services.ec2.Ec2Client;
 import software.amazon.awssdk.services.ec2.model.AuthorizeSecurityGroupIngressRequest;
@@ -13,8 +13,8 @@ import software.amazon.awssdk.services.ec2.model.IpPermission;
 import software.amazon.awssdk.services.ec2.model.IpRange;
 import software.amazon.awssdk.services.ec2.model.SecurityGroup;
 
-import static aws.credential.CredentioalsInfo.DEFAULT_VPC_ID;
-import static aws.ec2.Ec2TagHandler.createTag;
+import static aws.hands.on.credential.CredentioalsInfo.DEFAULT_VPC_ID;
+import static aws.hands.on.ec2.Ec2TagHandler.createTag;
 
 import java.util.HashMap;
 import java.util.List;

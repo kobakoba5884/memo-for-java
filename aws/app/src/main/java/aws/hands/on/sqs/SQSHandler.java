@@ -1,4 +1,4 @@
-package aws.sqs;
+package aws.hands.on.sqs;
 
 import java.util.ArrayList;
 import java.util.List;

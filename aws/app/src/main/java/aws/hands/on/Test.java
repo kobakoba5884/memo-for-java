@@ -1,4 +1,4 @@
-package aws;
+package aws.hands.on;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;

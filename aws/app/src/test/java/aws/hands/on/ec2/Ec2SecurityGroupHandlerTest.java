@@ -1,4 +1,4 @@
-package aws.ec2;
+package aws.hands.on.ec2;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -14,8 +14,8 @@ import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
 import software.amazon.awssdk.services.ec2.Ec2Client;
 import software.amazon.awssdk.services.ec2.model.SecurityGroup;
 
-import static aws.credential.CredentioalsInfo.MY_REGION;
-import static aws.ec2.Ec2SecurityGroupHandler.*;
+import static aws.hands.on.credential.CredentioalsInfo.MY_REGION;
+import static aws.hands.on.ec2.Ec2SecurityGroupHandler.*;
 
 public class Ec2SecurityGroupHandlerTest {
     private Ec2Client ec2Client;

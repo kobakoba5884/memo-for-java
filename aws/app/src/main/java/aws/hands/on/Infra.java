@@ -1,9 +1,9 @@
-package aws;
+package aws.hands.on;
 
 import java.util.stream.IntStream;
 
-import aws.dynamoDB.DynamoDBHandler;
-import aws.sqs.SQSHandler;
+import aws.hands.on.dynamoDB.DynamoDBHandler;
+import aws.hands.on.sqs.SQSHandler;
 
 public class Infra {
     public static void main(String[] args) {
