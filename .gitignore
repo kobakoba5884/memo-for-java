@@ -1,8 +1,0 @@
-.docker
-.vscode
-
-
-gradlew*
-.gitattributes
-bin
-key-for-default
