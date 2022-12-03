@@ -1,0 +1,8 @@
+.docker
+.vscode
+
+
+gradlew*
+.gitattributes
+bin
+private-key-for-ec2/
