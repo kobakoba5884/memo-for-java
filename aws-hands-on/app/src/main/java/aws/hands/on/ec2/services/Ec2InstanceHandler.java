@@ -21,6 +21,7 @@ import software.amazon.awssdk.services.ec2.model.TerminateInstancesResponse;
 
 import static aws.hands.on.ec2.services.Ec2SecurityGroupHandler.*;
 import static aws.hands.on.ec2.services.Ec2KeyPairHandler.*;
+import static aws.hands.on.ec2.services.Ec2TagHandler.*;
 
 import static aws.hands.on.ec2.configs.Ec2Config.DEFAULT_VPC_ID;
 
@@ -31,7 +32,6 @@ public class Ec2InstanceHandler{
         prepareBeforeCreating(ec2Client, ec2InstanceDTO);
 
         String amiId = ec2InstanceDTO.getAmiId();
-        String tagName = ec2InstanceDTO.getTagName();
 
         RunInstancesRequest runInstancesRequest = RunInstancesRequest.builder()
             .imageId(amiId)
@@ -46,7 +46,7 @@ public class Ec2InstanceHandler{
             RunInstancesResponse runInstancesResponse = ec2Client.runInstances(runInstancesRequest);
             String instanceId = runInstancesResponse.instances().get(0).instanceId();
 
-            // tagName.ifPresent(name -> createTag(ec2Client, instanceId, name));
+            createTag(ec2Client, instanceId, ec2InstanceDTO.getTagName());
 
             System.out.format("Successfully started EC2 Instance %s based on AMI %s\n", instanceId, amiId);
             
