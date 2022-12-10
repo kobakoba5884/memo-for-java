@@ -13,7 +13,7 @@ public class CredentialsInfo {
     public static final String USER = "postgres";
     public static final String PASSWORD = "postgres";
     // for ec2
-    public static final String KEY_PAIR_NAME = "key-for-default";
+    public static final String DEFAULT_KEY_PAIR_NAME = "key-for-default";
     public static final String EC2_FOLDER_PATH = "workspace/private-key-for-ec2";
     public static final Path BASE_FOLDER_PATH = Paths.get(System.getProperty("user.home"));
     public static final Path FOLDER_PATH = BASE_FOLDER_PATH.resolve(EC2_FOLDER_PATH);

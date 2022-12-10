@@ -4,7 +4,8 @@ import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
 import software.amazon.awssdk.services.ec2.Ec2Client;
 
 import static aws.hands.on.credential.CredentialsInfo.MY_REGION;
-import static aws.hands.on.ec2.Ec2SecurityGroupHandler.*;
+import static aws.hands.on.credential.CredentialsInfo.DEFAULT_VPC_ID;
+import static aws.hands.on.ec2.services.Ec2SecurityGroupHandler.*;
 
 
 public class Ec2Handler {
@@ -21,7 +22,7 @@ public class Ec2Handler {
             // allDeleteKeys(ec2Client);
             // getInstanceByInstanceId(ec2Client, "instanceId");
             // getInstancesList(ec2Client);
-            createEC2SecurityGroup(ec2Client, "groupName3", "groupDesc");
+            createEC2SecurityGroup(ec2Client, "groupName3", "groupDesc", DEFAULT_VPC_ID);
             // getInstanceByInstanceId(ec2Client, "i-1234567890abcdef0");
         ec2Client.close();
     }

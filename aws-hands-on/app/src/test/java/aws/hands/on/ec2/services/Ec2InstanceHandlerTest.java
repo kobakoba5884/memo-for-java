@@ -1,4 +1,4 @@
-package aws.hands.on.ec2;
+package aws.hands.on.ec2.services;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import aws.hands.on.AppTest;
-
+import aws.hands.on.ec2.models.Ec2InstanceDTO;
 import software.amazon.awssdk.services.ec2.model.Instance;
 
-import static aws.hands.on.ec2.Ec2InstanceHandler.*;
+import static aws.hands.on.ec2.services.Ec2InstanceHandler.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Optional;
@@ -21,7 +21,7 @@ public class Ec2InstanceHandlerTest extends AppTest{
     @BeforeAll
     void setup(){
         System.out.println("setup!!");
-        instanceId = createEc2Instance(ec2Client);
+        // instanceId = createEc2Instance(ec2Client);
     }
 
     @BeforeEach
@@ -32,6 +32,8 @@ public class Ec2InstanceHandlerTest extends AppTest{
 
     @Test
     void testCreateEc2Instance(){
+        Ec2InstanceDTO ec2InstanceDTO = new Ec2InstanceDTO();
+        createEc2Instance(ec2Client, ec2InstanceDTO);
     }
 
     @Test
@@ -54,13 +56,13 @@ public class Ec2InstanceHandlerTest extends AppTest{
 
     @Test
     void testStartEC2Instance() {
-        System.out.println("before start handlering");
+        System.out.println("before start handling");
         startEC2Instance(ec2Client, instanceId);
     }
 
     @Test
     void testTerminateEC2Instance() {
-        System.out.println("before terminate handlering");
-        terminateEC2Instance(ec2Client, instanceId);
+        System.out.println("before terminate handling");
+        terminateEC2Instance(ec2Client, "i-0f790a4c0f52e61d1");
     }
 }

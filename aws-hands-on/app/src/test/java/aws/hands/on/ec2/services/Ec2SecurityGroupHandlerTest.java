@@ -1,4 +1,4 @@
-package aws.hands.on.ec2;
+package aws.hands.on.ec2.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -12,8 +12,10 @@ import aws.hands.on.AppTest;
 
 import software.amazon.awssdk.services.ec2.model.SecurityGroup;
 
-import static aws.hands.on.ec2.Ec2SecurityGroupHandler.*;
 import static aws.hands.on.credential.CredentialsInfo.*;
+import static aws.hands.on.ec2.services.Ec2SecurityGroupHandler.*;
+
+import static aws.hands.on.credential.CredentialsInfo.DEFAULT_VPC_ID;
 
 public class Ec2SecurityGroupHandlerTest extends AppTest{
     @Test
@@ -26,9 +28,9 @@ public class Ec2SecurityGroupHandlerTest extends AppTest{
         String groupName = "groupName";
         String groupDesc = "groupDesc";
 
-        String securityGroupId = createEC2SecurityGroup(ec2Client, groupName, groupDesc);
+        String securityGroupId = createEC2SecurityGroup(ec2Client, groupName, groupDesc, DEFAULT_VPC_ID);
         
-        assertEquals("", createEC2SecurityGroup(ec2Client, groupName, groupDesc));
+        assertEquals("", createEC2SecurityGroup(ec2Client, groupName, groupDesc, DEFAULT_VPC_ID));
 
         @SuppressWarnings("unused")
         Optional<List<SecurityGroup>> securityGroups = getEC2SecurityGroups(ec2Client);
@@ -46,7 +48,7 @@ public class Ec2SecurityGroupHandlerTest extends AppTest{
 
     @Test
     void testDeleteEC2SecurityGroup() {
-        String groupId = createEC2SecurityGroup(ec2Client, DEFAULT_SECURITY_GROUP_NAME, DEFAULT_SECURITY_GROUP_NAME);
+        String groupId = createEC2SecurityGroup(ec2Client, DEFAULT_SECURITY_GROUP_NAME, DEFAULT_SECURITY_GROUP_NAME, DEFAULT_VPC_ID);
         groupId = getEC2SecurityGroupByName(ec2Client, DEFAULT_SECURITY_GROUP_NAME).get().groupId();
         deleteEC2SecurityGroup(ec2Client, groupId);
     }

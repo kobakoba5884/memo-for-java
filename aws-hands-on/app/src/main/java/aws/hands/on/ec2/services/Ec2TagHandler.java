@@ -1,4 +1,4 @@
-package aws.hands.on.ec2;
+package aws.hands.on.ec2.services;
 
 import java.util.Optional;
 
@@ -15,8 +15,8 @@ public class Ec2TagHandler {
     }
     
     // create tag for resource
-    public static Optional<CreateTagsResponse> createTag(Ec2Client ec2Client, String resouceId, String tagName){
-        // generate tagname
+    public static Optional<CreateTagsResponse> createTag(Ec2Client ec2Client, String resourceId, String tagName){
+        // generate tag name
         try{
             Tag tag = Tag.builder()
                 .key("Name")
@@ -24,14 +24,14 @@ public class Ec2TagHandler {
                 .build();
 
             CreateTagsRequest tagsRequest = CreateTagsRequest.builder()
-                .resources(resouceId)
+                .resources(resourceId)
                 .tags(tag)
                 .build();
     
         
             CreateTagsResponse createTagsResponse = ec2Client.createTags(tagsRequest);
 
-            System.out.format("Successfully created %s at %s\n", tagName, resouceId);
+            System.out.format("Successfully created %s at %s\n", tagName, resourceId);
 
             return Optional.of(createTagsResponse);
         }catch(Ec2Exception e){

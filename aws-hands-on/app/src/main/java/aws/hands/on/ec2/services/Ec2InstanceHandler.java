@@ -1,15 +1,15 @@
-package aws.hands.on.ec2;
+package aws.hands.on.ec2.services;
 
 import java.util.List;
 import java.util.Optional;
 
+import aws.hands.on.ec2.models.Ec2InstanceDTO;
 import software.amazon.awssdk.services.ec2.Ec2Client;
 import software.amazon.awssdk.services.ec2.model.DescribeInstancesRequest;
 import software.amazon.awssdk.services.ec2.model.DescribeInstancesResponse;
 import software.amazon.awssdk.services.ec2.model.Ec2Exception;
 import software.amazon.awssdk.services.ec2.model.Instance;
 import software.amazon.awssdk.services.ec2.model.InstanceStateChange;
-import software.amazon.awssdk.services.ec2.model.InstanceType;
 import software.amazon.awssdk.services.ec2.model.KeyPairInfo;
 import software.amazon.awssdk.services.ec2.model.RunInstancesRequest;
 import software.amazon.awssdk.services.ec2.model.RunInstancesResponse;
@@ -19,58 +19,58 @@ import software.amazon.awssdk.services.ec2.model.StopInstancesRequest;
 import software.amazon.awssdk.services.ec2.model.TerminateInstancesRequest;
 import software.amazon.awssdk.services.ec2.model.TerminateInstancesResponse;
 
-import static aws.hands.on.credential.CredentialsInfo.KEY_PAIR_NAME;
-import static aws.hands.on.credential.CredentialsInfo.DEFAULT_SECURITY_GROUP_NAME;
-import static aws.hands.on.ec2.Ec2KeyPairHandler.getEC2KeyByKeyName;
-import static aws.hands.on.ec2.Ec2KeyPairHandler.createEC2KeyPair;
-import static aws.hands.on.ec2.Ec2KeyPairHandler.deleteKeyPair;
-import static aws.hands.on.ec2.Ec2SecurityGroupHandler.createEC2SecurityGroup;
-import static aws.hands.on.ec2.Ec2SecurityGroupHandler.getEC2SecurityGroupByName;
-import static aws.hands.on.ec2.Ec2TagHandler.createTag;
+import static aws.hands.on.ec2.services.Ec2SecurityGroupHandler.*;
+import static aws.hands.on.ec2.services.Ec2KeyPairHandler.*;
 
-public class Ec2InstanceHandler {
-    private final static Integer CREATE_COUNT = 1;
-    private final static String AMI_ID = "ami-072bfb8ae2c884cc4"; // amazon linux 2
+import static aws.hands.on.credential.CredentialsInfo.DEFAULT_VPC_ID;
 
-    private Ec2InstanceHandler(){
-
-    }
+public class Ec2InstanceHandler{
 
     // create ec2 instance
-    public static String createEc2Instance(Ec2Client ec2Client, String... tagNames){
-        Optional<String> tagName = tagNames.length == 0 ? Optional.empty() : Optional.of(tagNames[0]);
+    public static String createEc2Instance(Ec2Client ec2Client, Ec2InstanceDTO ec2InstanceDTO){
+        prepareBeforeCreating(ec2Client, ec2InstanceDTO);
 
-        Optional<SecurityGroup> securityGroup = getEC2SecurityGroupByName(ec2Client, DEFAULT_SECURITY_GROUP_NAME);
-        
-        String securityGroupId = securityGroup.isPresent() ? securityGroup.get().groupId() : createEC2SecurityGroup(ec2Client, DEFAULT_SECURITY_GROUP_NAME, DEFAULT_SECURITY_GROUP_NAME);
+        String amiId = ec2InstanceDTO.getAmiId();
 
         RunInstancesRequest runInstancesRequest = RunInstancesRequest.builder()
-            .imageId(AMI_ID)
-            .instanceType(InstanceType.T2_MICRO)
-            .maxCount(CREATE_COUNT)
-            .minCount(CREATE_COUNT)
-            .keyName(KEY_PAIR_NAME)
-            .securityGroupIds(securityGroupId)
+            .imageId(amiId)
+            .instanceType(ec2InstanceDTO.getInstanceType())
+            .maxCount(ec2InstanceDTO.getCreateMaxCount())
+            .minCount(ec2InstanceDTO.getCreateMinCount())
+            .keyName(ec2InstanceDTO.getKeyPairName())
+            .securityGroups(ec2InstanceDTO.getSecurityGroupName())
             .build();
-        
-        Optional<KeyPairInfo> keyPairInfo = getEC2KeyByKeyName(ec2Client, KEY_PAIR_NAME);
-
-        keyPairInfo.ifPresent(key -> deleteKeyPair(ec2Client, KEY_PAIR_NAME));
-        createEC2KeyPair(ec2Client, KEY_PAIR_NAME);
 
         try{
             RunInstancesResponse runInstancesResponse = ec2Client.runInstances(runInstancesRequest);
             String instanceId = runInstancesResponse.instances().get(0).instanceId();
 
-            tagName.ifPresent(name -> createTag(ec2Client, instanceId, name));
+            // tagName.ifPresent(name -> createTag(ec2Client, instanceId, name));
 
-            System.out.format("Successfully started EC2 Instance %s based on AMI %s\n", instanceId, AMI_ID);
+            System.out.format("Successfully started EC2 Instance %s based on AMI %s\n", instanceId, amiId);
             
             return instanceId;
         }catch(Ec2Exception e){
             System.err.println(e.awsErrorDetails().errorMessage());
             return "";
         }
+    }
+
+    private static void prepareBeforeCreating(Ec2Client ec2Client, Ec2InstanceDTO ec2InstanceDTO){
+        String securityGroupName = ec2InstanceDTO.getSecurityGroupName();
+
+        Optional<SecurityGroup> securityGroup = getEC2SecurityGroupByName(ec2Client, securityGroupName);
+
+        if(securityGroup.isEmpty()){
+            createEC2SecurityGroup(ec2Client, securityGroupName, securityGroupName, DEFAULT_VPC_ID);
+        }
+
+        String keyPairName = ec2InstanceDTO.getKeyPairName();
+
+        Optional<KeyPairInfo> keyPairInfo = getEC2KeyByKeyName(ec2Client, keyPairName);
+
+        keyPairInfo.ifPresent(key -> deleteKeyPair(ec2Client, keyPairName));
+        createEC2KeyPair(ec2Client, keyPairName);
     }
 
     // get instances list

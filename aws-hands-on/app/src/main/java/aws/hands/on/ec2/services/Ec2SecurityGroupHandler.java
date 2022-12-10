@@ -1,4 +1,4 @@
-package aws.hands.on.ec2;
+package aws.hands.on.ec2.services;
 
 import software.amazon.awssdk.services.ec2.Ec2Client;
 import software.amazon.awssdk.services.ec2.model.AuthorizeSecurityGroupIngressRequest;
@@ -13,7 +13,7 @@ import software.amazon.awssdk.services.ec2.model.IpPermission;
 import software.amazon.awssdk.services.ec2.model.IpRange;
 import software.amazon.awssdk.services.ec2.model.SecurityGroup;
 
-import static aws.hands.on.credential.CredentialsInfo.DEFAULT_VPC_ID;
+// import static aws.hands.on.credential.CredentialsInfo.DEFAULT_VPC_ID;
 // import static aws.hands.on.ec2.Ec2TagHandler.createTag;
 
 import java.util.HashMap;
@@ -32,8 +32,7 @@ public class Ec2SecurityGroupHandler {
     }
     
     // create security group for ec2 instance
-    public static String createEC2SecurityGroup(Ec2Client ec2Client, String groupName, String groupDesc, String... vpcIds){
-        String vpcId = vpcIds.length == 0 ? DEFAULT_VPC_ID : vpcIds[0];
+    public static String createEC2SecurityGroup(Ec2Client ec2Client, String groupName, String groupDesc, String vpcId){
         String result = "";
 
         try{

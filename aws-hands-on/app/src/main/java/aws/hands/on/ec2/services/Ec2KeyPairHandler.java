@@ -1,4 +1,4 @@
-package aws.hands.on.ec2;
+package aws.hands.on.ec2.services;
 
 import java.io.BufferedWriter;
 import java.io.File;
