@@ -13,7 +13,7 @@ import software.amazon.awssdk.services.ec2.model.IpPermission;
 import software.amazon.awssdk.services.ec2.model.IpRange;
 import software.amazon.awssdk.services.ec2.model.SecurityGroup;
 
-import static aws.hands.on.credential.CredentioalsInfo.DEFAULT_VPC_ID;
+import static aws.hands.on.credential.CredentialsInfo.DEFAULT_VPC_ID;
 // import static aws.hands.on.ec2.Ec2TagHandler.createTag;
 
 import java.util.HashMap;

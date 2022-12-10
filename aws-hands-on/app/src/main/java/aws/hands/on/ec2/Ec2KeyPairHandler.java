@@ -19,7 +19,7 @@ import software.amazon.awssdk.services.ec2.model.DescribeKeyPairsResponse;
 import software.amazon.awssdk.services.ec2.model.Ec2Exception;
 import software.amazon.awssdk.services.ec2.model.KeyPairInfo;
 
-import static aws.hands.on.credential.CredentioalsInfo.FOLDER_PATH;
+import static aws.hands.on.credential.CredentialsInfo.FOLDER_PATH;
 
 public class Ec2KeyPairHandler{
 

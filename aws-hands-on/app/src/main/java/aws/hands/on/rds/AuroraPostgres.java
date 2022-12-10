@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import static aws.hands.on.credential.CredentioalsInfo.*;
+import static aws.hands.on.credential.CredentialsInfo.*;
 
 
 public class AuroraPostgres {
@@ -43,7 +43,7 @@ public class AuroraPostgres {
     }
 
     // confirm connection
-    private static void confirmConnction(){
+    private static void confirmConnection(){
         String sql = "select 1;";
         try(Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
             PreparedStatement statement = connection.prepareStatement(sql);){
@@ -56,6 +56,6 @@ public class AuroraPostgres {
     }
 
     public static void main(String[] args) {
-        confirmConnction();
+        confirmConnection();
     }
 }

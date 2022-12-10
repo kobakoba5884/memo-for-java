@@ -19,8 +19,8 @@ import software.amazon.awssdk.services.ec2.model.StopInstancesRequest;
 import software.amazon.awssdk.services.ec2.model.TerminateInstancesRequest;
 import software.amazon.awssdk.services.ec2.model.TerminateInstancesResponse;
 
-import static aws.hands.on.credential.CredentioalsInfo.KEY_PAIR_NAME;
-import static aws.hands.on.credential.CredentioalsInfo.DEFAULT_SECURITY_GROUP_NAME;
+import static aws.hands.on.credential.CredentialsInfo.KEY_PAIR_NAME;
+import static aws.hands.on.credential.CredentialsInfo.DEFAULT_SECURITY_GROUP_NAME;
 import static aws.hands.on.ec2.Ec2KeyPairHandler.getEC2KeyByKeyName;
 import static aws.hands.on.ec2.Ec2KeyPairHandler.createEC2KeyPair;
 import static aws.hands.on.ec2.Ec2KeyPairHandler.deleteKeyPair;

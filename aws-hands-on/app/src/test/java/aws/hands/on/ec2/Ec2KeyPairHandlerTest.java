@@ -5,7 +5,7 @@ import org.junit.jupiter.api.TestInstance;
 
 import aws.hands.on.AppTest;
 
-import static aws.hands.on.credential.CredentioalsInfo.KEY_PAIR_NAME;
+import static aws.hands.on.credential.CredentialsInfo.KEY_PAIR_NAME;
 import static aws.hands.on.ec2.Ec2KeyPairHandler.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)

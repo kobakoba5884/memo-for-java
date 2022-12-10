@@ -3,7 +3,7 @@ package aws.hands.on.ec2;
 import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
 import software.amazon.awssdk.services.ec2.Ec2Client;
 
-import static aws.hands.on.credential.CredentioalsInfo.MY_REGION;
+import static aws.hands.on.credential.CredentialsInfo.MY_REGION;
 import static aws.hands.on.ec2.Ec2SecurityGroupHandler.*;
 
 

@@ -13,7 +13,7 @@ import aws.hands.on.AppTest;
 import software.amazon.awssdk.services.ec2.model.SecurityGroup;
 
 import static aws.hands.on.ec2.Ec2SecurityGroupHandler.*;
-import static aws.hands.on.credential.CredentioalsInfo.*;
+import static aws.hands.on.credential.CredentialsInfo.*;
 
 public class Ec2SecurityGroupHandlerTest extends AppTest{
     @Test
