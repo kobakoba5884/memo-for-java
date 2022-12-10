@@ -14,6 +14,8 @@ import software.amazon.awssdk.services.ec2.model.KeyPairInfo;
 import software.amazon.awssdk.services.ec2.model.RunInstancesRequest;
 import software.amazon.awssdk.services.ec2.model.RunInstancesResponse;
 import software.amazon.awssdk.services.ec2.model.SecurityGroup;
+import software.amazon.awssdk.services.ec2.model.StartInstancesRequest;
+import software.amazon.awssdk.services.ec2.model.StopInstancesRequest;
 import software.amazon.awssdk.services.ec2.model.TerminateInstancesRequest;
 import software.amazon.awssdk.services.ec2.model.TerminateInstancesResponse;
 
@@ -119,6 +121,37 @@ public class Ec2InstanceHandler {
             System.err.println(e.awsErrorDetails().errorMessage());
 
             return Optional.empty();
+        }
+    }
+
+    // start ec2 instance
+    public static void startEC2Instance(Ec2Client ec2Client, String instanceId){
+        try{
+            StartInstancesRequest startInstancesRequest = StartInstancesRequest.builder()
+                .instanceIds(instanceId)
+                .build();
+
+            ec2Client.startInstances(startInstancesRequest);
+
+            System.out.printf("Successfully started instance %s\n", instanceId);
+        }catch(Ec2Exception e){
+            System.err.println(e.awsErrorDetails().errorMessage());
+            System.exit(1);
+        }
+    }
+
+    public static void stopEC2Instance(Ec2Client ec2Client, String instanceId){
+        try{
+            StopInstancesRequest stopInstancesRequest = StopInstancesRequest.builder()
+                .instanceIds(instanceId)
+                .build();
+
+            ec2Client.stopInstances(stopInstancesRequest);
+
+            System.out.printf("Successfully stopped instance %s\n", instanceId);
+        }catch(Ec2Exception e){
+            System.err.println(e.awsErrorDetails().errorMessage());
+            System.exit(1);
         }
     }
 

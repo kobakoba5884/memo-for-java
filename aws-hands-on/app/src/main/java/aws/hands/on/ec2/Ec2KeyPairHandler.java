@@ -10,9 +10,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import software.amazon.awssdk.services.ec2.Ec2Client;
 import software.amazon.awssdk.services.ec2.model.CreateKeyPairRequest;
 import software.amazon.awssdk.services.ec2.model.CreateKeyPairResponse;
@@ -25,8 +22,6 @@ import software.amazon.awssdk.services.ec2.model.KeyPairInfo;
 import static aws.hands.on.credential.CredentioalsInfo.FOLDER_PATH;
 
 public class Ec2KeyPairHandler{
-    @SuppressWarnings("unused")
-    private Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
 
     private Ec2KeyPairHandler(){
 
