@@ -17,5 +17,5 @@ public class Ec2InstanceDTO {
     private Integer createMinCount = CREATE_MIN_COUNT;
     private String keyPairName = DEFAULT_KEY_PAIR_NAME;
     private String securityGroupName = DEFAULT_SECURITY_GROUP_NAME;
-    private String tagName;
+    private String tagName = DEFAULT_TAG_NAME;
 }

@@ -31,6 +31,7 @@ public class Ec2InstanceHandler{
         prepareBeforeCreating(ec2Client, ec2InstanceDTO);
 
         String amiId = ec2InstanceDTO.getAmiId();
+        String tagName = ec2InstanceDTO.getTagName();
 
         RunInstancesRequest runInstancesRequest = RunInstancesRequest.builder()
             .imageId(amiId)

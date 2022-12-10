@@ -14,6 +14,7 @@ public class Ec2Config {
     public static final String DEFAULT_KEY_PAIR_NAME = "key-for-default";
     public static final String DEFAULT_SECURITY_GROUP_NAME = "default-security-group";
     public static final String DEFAULT_VPC_ID = "vpc-01e677f1b5a1323dd";
+    public static final String DEFAULT_TAG_NAME = "default-instance";
 
     public static final String EC2_FOLDER_PATH = "workspace/private-key-for-ec2";
     public static final Path BASE_FOLDER_PATH = Paths.get(System.getProperty("user.home"));
