@@ -2,6 +2,7 @@
 .vscode
 
 
+wrapper
 gradlew*
 .gitattributes
 bin

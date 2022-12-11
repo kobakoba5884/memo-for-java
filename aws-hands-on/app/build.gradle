@@ -35,6 +35,8 @@ dependencies {
     implementation 'software.amazon.awssdk:ec2'
     // amazon iam
     implementation 'software.amazon.awssdk:iam'
+    // amazon sns
+    implementation 'software.amazon.awssdk:sns'
     // jdbc driver for postgres
     implementation 'org.postgresql:postgresql:42.5.0'
 
