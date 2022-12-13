@@ -3,7 +3,14 @@
  */
 package pure.java;
 
-import java.util.Date;
+// import java.io.BufferedReader;
+// import java.io.InputStreamReader;
+// import java.util.ArrayList;
+// import java.util.List;
+// import java.util.Objects;
+// import java.util.Optional;
+// import java.util.Scanner;
+// import java.util.stream.IntStream;
 
 public class App {
     public String getGreeting() {
@@ -11,11 +18,39 @@ public class App {
     }
 
     public static void main(String[] args) {
-        String ddd = String.format("%-6s", "aa");
-        System.out.println(ddd);
-        System.out.println(ddd.length());
+        // List<Integer> numbers = new ArrayList<>();
+        // try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))){
+        //     String line;
 
-        System.out.println(new Date(-1));
-        System.out.println(new Date(-1000));
+        //     while (Objects.isNull(line = bufferedReader.readLine())){
+        //         numbers.add(Integer.parseInt(line));
+        //     }
+
+        //     Optional<Integer> result = numbers.stream().parallel().reduce((value1, value2) -> value1 * value2);
+
+        //     result.ifPresent(System.out::println);
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        // }
+
+        // try(Scanner scanner = new Scanner(System.in)){
+        //     final String[] arguments = scanner.nextLine().split(" ");
+        //     final int applicantsNum = Integer.parseInt(arguments[0]);
+        //     final int aHitNum = Integer.parseInt(arguments[1]);
+        //     final int bHitNum = Integer.parseInt(arguments[2]);
+
+        //     IntStream.rangeClosed(1, applicantsNum).forEach(i -> {
+        //         boolean aHit = i % aHitNum == 0;
+        //         boolean bHit = i % bHitNum == 0;
+        //         String output = "";
+
+        //         if(aHit && bHit) output = "AB";
+        //         else if(aHit) output = "A";
+        //         else if(bHit) output = "B";
+        //         else output =  "N";
+
+        //         System.out.println(output);
+        //     });
+        // }
     }
 }
