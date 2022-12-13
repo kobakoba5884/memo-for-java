@@ -13,6 +13,8 @@ import org.junit.jupiter.api.TestInstance;
 
 import com.github.javafaker.Faker;
 
+import pure.java.io.enums.ScannerType;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 import static pure.java.io.ScannerUtils.*;
@@ -52,7 +54,12 @@ public class ScannerUtilsTest {
         
     }
 
+    @Test
+    void testMultilineOutput() {
+        
+    }
+
     public static void main(String[] args) {
-        System.out.println(TARGET_FOLDER_PATH);
+        multilineOutput(ScannerType.PARAGRAPH);
     }
 }
