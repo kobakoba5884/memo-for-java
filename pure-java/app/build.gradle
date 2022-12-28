@@ -25,6 +25,16 @@ dependencies {
 
     implementation 'com.github.javafaker:javafaker:1.0.2'
 
+    // selenium
+    // implementation 'org.seleniumhq.selenium:selenium-chrome-driver:4.7.2'
+
+    implementation 'org.seleniumhq.selenium:selenium-java:4.7.2'
+
+    // lombok
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+	annotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+
 }
 
 application {

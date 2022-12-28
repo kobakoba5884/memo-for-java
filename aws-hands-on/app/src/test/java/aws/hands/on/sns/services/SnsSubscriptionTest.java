@@ -36,7 +36,13 @@ public class SnsSubscriptionTest extends SnsTest{
     }
 
     @Test
-    void testConfirmSubscription() {
-        confirmSubscription(snsClient, topicArn, topicArn);
+    void testRemoveSubscription() {
+        String subscriptionArn = "arn:aws:sns:ap-northeast-1:779004463807:test-topic:cc2f9f9b-4988-4579-b635-fc66d19014ba";
+        removeSubscription(snsClient, subscriptionArn);
+
+        Optional<Subscription> result = getListSNSSubscriptions(snsClient).get().stream()
+            .filter(sub -> sub.subscriptionArn().equals(subscriptionArn)).findAny();
+
+        assertTrue(result.isEmpty());
     }
 }

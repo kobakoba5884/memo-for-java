@@ -3,14 +3,17 @@
  */
 package pure.java;
 
-// import java.io.BufferedReader;
-// import java.io.InputStreamReader;
-// import java.util.ArrayList;
-// import java.util.List;
-// import java.util.Objects;
-// import java.util.Optional;
-// import java.util.Scanner;
-// import java.util.stream.IntStream;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Random;
+import java.util.stream.Stream;
+
+import com.github.javafaker.Faker;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 public class App {
     public String getGreeting() {
@@ -18,39 +21,29 @@ public class App {
     }
 
     public static void main(String[] args) {
-        // List<Integer> numbers = new ArrayList<>();
-        // try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))){
-        //     String line;
+		Faker faker = new Faker(Locale.getDefault());
+		Random random = new Random();
+		int AGE_MAX = 60;
+		int LIST_NODE_MAX = random.nextInt(100);
 
-        //     while (Objects.isNull(line = bufferedReader.readLine())){
-        //         numbers.add(Integer.parseInt(line));
-        //     }
+		Comparator<Person> comparator = Comparator.comparing(Person::getMonth).thenComparing(Person::getAge);
 
-        //     Optional<Integer> result = numbers.stream().parallel().reduce((value1, value2) -> value1 * value2);
+        List<Person> list =  Stream.generate(() -> new Person(faker.name().fullName(), random.nextInt(AGE_MAX), random.nextInt(12) + 1))
+			.limit(LIST_NODE_MAX).toList();
 
-        //     result.ifPresent(System.out::println);
-        // } catch (Exception e) {
-        //     e.printStackTrace();
-        // }
+		System.out.println(list);
 
-        // try(Scanner scanner = new Scanner(System.in)){
-        //     final String[] arguments = scanner.nextLine().split(" ");
-        //     final int applicantsNum = Integer.parseInt(arguments[0]);
-        //     final int aHitNum = Integer.parseInt(arguments[1]);
-        //     final int bHitNum = Integer.parseInt(arguments[2]);
+		list = list.stream().sorted(comparator).toList();
 
-        //     IntStream.rangeClosed(1, applicantsNum).forEach(i -> {
-        //         boolean aHit = i % aHitNum == 0;
-        //         boolean bHit = i % bHitNum == 0;
-        //         String output = "";
-
-        //         if(aHit && bHit) output = "AB";
-        //         else if(aHit) output = "A";
-        //         else if(bHit) output = "B";
-        //         else output =  "N";
-
-        //         System.out.println(output);
-        //     });
-        // }
+		System.out.println(list);
     }
+
+	@Data
+	@AllArgsConstructor
+	@NoArgsConstructor
+	static class Person{
+		private String name;
+		private int age;
+		private int month;
+	}
 }

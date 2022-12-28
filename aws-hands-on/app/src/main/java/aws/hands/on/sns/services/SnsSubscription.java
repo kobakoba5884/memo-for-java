@@ -12,6 +12,8 @@ import software.amazon.awssdk.services.sns.model.SnsException;
 import software.amazon.awssdk.services.sns.model.SubscribeRequest;
 import software.amazon.awssdk.services.sns.model.SubscribeResponse;
 import software.amazon.awssdk.services.sns.model.Subscription;
+import software.amazon.awssdk.services.sns.model.UnsubscribeRequest;
+import software.amazon.awssdk.services.sns.model.UnsubscribeResponse;
 
 public class SnsSubscription {
     private SnsSubscription(){
@@ -21,16 +23,20 @@ public class SnsSubscription {
     // subscript email
     public static String subscribeEmail(SnsClient snsClient, String topicArn, String email) {
         try {
+
             SubscribeRequest subscribeRequest = SubscribeRequest.builder()
                 .protocol("email")
                 .endpoint(email)
                 .returnSubscriptionArn(true)
                 .topicArn(topicArn)
                 .build();
-
+            
             SubscribeResponse subscribeResponse = snsClient.subscribe(subscribeRequest);
 
             String subscriptionArn = subscribeResponse.subscriptionArn();
+
+            System.out.println(subscribeResponse.sdkHttpResponse().headers());
+
             System.out.println("Subscription ARN: %s\nStatus is %s\n"
                 .formatted(subscriptionArn, subscribeResponse.sdkHttpResponse().statusCode()));
 
@@ -41,6 +47,7 @@ public class SnsSubscription {
         }
     }
 
+    // subtribe text SNS 
     public static String subscribeTextSNS( SnsClient snsClient, String topicArn, String phoneNumber) {
         try {
             SubscribeRequest request = SubscribeRequest.builder()
@@ -50,11 +57,11 @@ public class SnsSubscription {
                 .topicArn(topicArn)
                 .build();
 
-            SubscribeResponse result = snsClient.subscribe(request);
+            SubscribeResponse response = snsClient.subscribe(request);
 
-            String subscriptionArn = result.subscriptionArn();
+            String subscriptionArn = response.subscriptionArn();
             System.out.println("Subscription ARN: %s\nStatus is %s\n"
-                .formatted(subscriptionArn, result.sdkHttpResponse().statusCode()));
+                .formatted(subscriptionArn, response.sdkHttpResponse().statusCode()));
 
             return subscriptionArn;
         } catch (SnsException e) {
@@ -70,21 +77,38 @@ public class SnsSubscription {
             ListSubscriptionsRequest request = ListSubscriptionsRequest.builder()
                 .build();
 
-            ListSubscriptionsResponse result = snsClient.listSubscriptions(request);
+            ListSubscriptionsResponse response = snsClient.listSubscriptions(request);
 
-            if(!result.hasSubscriptions()){
+            if(!response.hasSubscriptions()){
                 System.out.println("subscription list is empty.");
                 return empty;
             }
 
-            List<Subscription> subscriptions = result.subscriptions();
+            List<Subscription> subscriptions = response.subscriptions();
 
             subscriptions.stream().forEach(System.out::println);
 
-            return subscriptions.size() != 0 ? Optional.of(subscriptions) : empty;
+            return subscriptions.isEmpty() ? empty : Optional.of(subscriptions);
         } catch (SnsException e) {
             System.err.println(e.awsErrorDetails().errorMessage());
             return empty;
+        }
+    }
+
+    // remove subscription
+    public static void removeSubscription(SnsClient snsClient, String subscriptionArn) {
+        try {
+            UnsubscribeRequest request = UnsubscribeRequest.builder()
+                .subscriptionArn(subscriptionArn)
+                .build();
+
+            UnsubscribeResponse response = snsClient.unsubscribe(request);
+
+            System.out.println("Status was %s\nSubscription was removed for %s\n"
+                .formatted(response.sdkHttpResponse().statusCode(), subscriptionArn));
+        } catch (SnsException e) {
+            System.err.println(e.awsErrorDetails().errorMessage());
+            System.exit(1);
         }
     }
 
@@ -99,8 +123,8 @@ public class SnsSubscription {
             System.out.println("\n\nStatus was " + result.sdkHttpResponse().statusCode() + "\n\nSubscription Arn: \n\n" + result.subscriptionArn());
 
         } catch (SnsException e) {
-        System.err.println(e.awsErrorDetails().errorMessage());
-        System.exit(1);
+            System.err.println(e.awsErrorDetails().errorMessage());
+            System.exit(1);
         }
     }
 }

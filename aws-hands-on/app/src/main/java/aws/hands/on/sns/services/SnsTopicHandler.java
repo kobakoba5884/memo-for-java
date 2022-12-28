@@ -34,11 +34,18 @@ public class SnsTopicHandler {
                 .name(topicName)
                 .build();
 
+            String topicArn = getArnByTopicName(snsClient, topicName);
+
+            if(!topicArn.isEmpty()){
+                System.out.println("the topic(%s) is existed".formatted(topicArn));
+                return topicArn;
+            }
+
             CreateTopicResponse createTopicResponse = snsClient.createTopic(createTopicRequest);
 
             System.out.printf("successfully created sns topic(%s).\n", topicName);
 
-            String topicArn = createTopicResponse.topicArn();
+            topicArn = createTopicResponse.topicArn();
 
             return topicArn;
         }catch(SnsException e){
